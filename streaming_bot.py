@@ -41,8 +41,15 @@ crispr_collections = tweets_db.crispr_tweets
 
 
 class MyStreamListener(tweepy.StreamListener):
+    """"Listens to tweets and inserts each tweet into a MongoDB collection"""
 
     def on_status(self, status):
+        """When raw data is received from Twitter server, it is inserted into the MongoDB collection
+
+        Args:
+          status: Raw data from Twitter server
+        """
+
         id_str = status.id_str
         created = status.created_at
         text = status.text
@@ -64,6 +71,15 @@ class MyStreamListener(tweepy.StreamListener):
             })
 
     def on_error(self, status_code):
+        """When error status code is received from Twitter server
+
+        Args:
+            status_code: Error code from Tiwtter
+        Returns:
+            False: If status code is 420 (when app is rate limited by twitter server)
+            Nothing: All other status codes
+        """
+
         print('error')
         if status_code == 420:
             print('encountered error')
@@ -71,8 +87,10 @@ class MyStreamListener(tweepy.StreamListener):
             return False
 
 
-myStreamListener = MyStreamListener()
-myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
+if __name__ == '__main__':
+    """Main part of the code where the streamlistener is created and run"""
 
-myStream.filter(track=['crispr'], async=True)
+    myStreamListener = MyStreamListener()
+    myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
+    myStream.filter(track=['crispr'], async=True)
 
