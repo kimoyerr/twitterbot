@@ -4,7 +4,7 @@ A twitter bot that searches for tweets based on keywords. Also, stores these twe
 
 # Prerequisites
 Create an environment with the provided requirements.txt file
-conda create -n my_twitterbot -f requirements.txt
+```conda create -n my_twitterbot -f requirements.txt```
 
 # Deployment
 These blogs will provide info on how to deploy:
